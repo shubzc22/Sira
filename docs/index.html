@@ -589,104 +589,112 @@ items.forEach(item => {
 
 
 
-  <style>
-    :root{
-      --gold: #d4af37;
-      --glass-bg: rgba(255,255,255,0.06);
-      --glass-border: rgba(212,175,55,0.14);
-    }
+<style>
+  :root{
+    --gold: #d4af37;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(212,175,55,0.14);
+  }
 
-    
+  .glass-btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.8em 2.2em;
+    border-radius: 999px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: white;
+    font-weight: 400;
+    font-size: clamp(14px, 2.5vw, 16px);
+    letter-spacing: 0.4px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 220ms ease, box-shadow 220ms ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6),
+                inset 0 0 18px rgba(255,255,255,0.02);
+  }
 
+  .glass-btn:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.65),
+                0 0 40px rgba(212,175,55,0.08);
+  }
+
+  /* animated gold glow */
+  .glass-btn::before,
+  .glass-btn::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 150%;
+    height: 70%;
+    left: -25%;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg,
+      rgba(212,175,55,0) 0%,
+      rgba(212,175,55,0.12) 20%,
+      rgba(212,175,55,0.85) 50%,
+      rgba(212,175,55,0.12) 80%,
+      rgba(212,175,55,0) 100%);
+    filter: blur(8px);
+    opacity: 0.9;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    border-radius: 999px;
+    animation: slideGlow 3.5s linear infinite;
+  }
+
+  .glass-btn::after{
+    animation: slideGlowReverse 4.8s linear infinite;
+    opacity: 0.6;
+    filter: blur(12px);
+  }
+
+  .glass-btn .sheen {
+    position: absolute;
+    left: -10%;
+    top: -30%;
+    width: 40%;
+    height: 120%;
+    background: radial-gradient(ellipse at top left, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 30%, transparent 50%);
+    transform: rotate(-20deg);
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    filter: blur(2px);
+  }
+
+  @keyframes slideGlow {
+    0% { transform: translateY(-50%) translateX(-60%); opacity: 0;}
+    40% { transform: translateY(-50%) translateX(0%); opacity: 0.9; }
+    100% { transform: translateY(-50%) translateX(120%); opacity: 0;}
+  }
+
+  @keyframes slideGlowReverse {
+    0% { transform: translateY(-50%) translateX(120%); opacity: 0;}
+    50% { transform: translateY(-50%) translateX(20%); opacity: 0.8; }
+    100% { transform: translateY(-50%) translateX(-120%); opacity: 0;}
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 600px) {
     .glass-btn {
-      position: relative;
-      display: inline-block;
-      padding: 12px 36px;
-      border-radius: 999px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: white;
-      font-weight: 300;
-      font-size: 16px;
-      letter-spacing: 0.4px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      cursor: pointer;
-      overflow: hidden;
-      transition: transform 220ms ease, box-shadow 220ms ease;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6),
-                  inset 0 0 18px rgba(255,255,255,0.02);
+      padding: 0.6em 1.8em;
+      font-size: clamp(13px, 4vw, 15px);
     }
-
-    .glass-btn:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.65),
-                  0 0 40px rgba(212,175,55,0.08);
-    }
-
-    /* animated gold glow */
     .glass-btn::before,
     .glass-btn::after{
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 140%;
-      height: 70%;
-      left: -20%;
-      transform: translateY(-50%) rotate(0deg);
-      background: linear-gradient(90deg,
-        rgba(212,175,55,0) 0%,
-        rgba(212,175,55,0.12) 20%,
-        rgba(212,175,55,0.85) 50%,
-        rgba(212,175,55,0.12) 80%,
-        rgba(212,175,55,0) 100%);
-      filter: blur(10px);
-      opacity: 0.9;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      border-radius: 999px;
-      animation: slideGlow 3.5s linear infinite;
+      width: 130%;
+      filter: blur(6px);
     }
+  }
+</style>
 
-    .glass-btn::after{
-      animation: slideGlowReverse 4.8s linear infinite;
-      opacity: 0.6;
-      filter: blur(14px);
-    }
-
-    .glass-btn .sheen {
-      position: absolute;
-      left: -10%;
-      top: -30%;
-      width: 40%;
-      height: 120%;
-      background: radial-gradient(ellipse at top left, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 30%, transparent 50%);
-      transform: rotate(-20deg);
-      pointer-events: none;
-      mix-blend-mode: overlay;
-      filter: blur(2px);
-    }
-
-    @keyframes slideGlow {
-      0% { transform: translateY(-50%) translateX(-60%); opacity: 0;}
-      10% { opacity: 0.25; }
-      40% { transform: translateY(-50%) translateX(0%); opacity: 0.9; }
-      70% { transform: translateY(-50%) translateX(60%); opacity: 0.25; }
-      100% { transform: translateY(-50%) translateX(120%); opacity: 0;}
-    }
-
-    @keyframes slideGlowReverse {
-      0% { transform: translateY(-50%) translateX(120%); opacity: 0;}
-      20% { opacity: 0.18; }
-      50% { transform: translateY(-50%) translateX(20%); opacity: 0.8; }
-      80% { transform: translateY(-50%) translateX(-40%); opacity: 0.2; }
-      100% { transform: translateY(-50%) translateX(-120%); opacity: 0;}
-    }
-  </style>
-  <button class="glass-btn" aria-label="Shop Now">
-    <span class="sheen"></span>
-    Shop Now
-  </button>
+<button class="glass-btn" aria-label="Shop Now">
+  <span class="sheen"></span>
+  Shop Now
+</button>
 
 
 
@@ -784,105 +792,113 @@ items.forEach(item => {
 <div class="right-details">
 
 
-  <style>
-    :root{
-      --gold: #d4af37;
-      --glass-bg: rgba(255,255,255,0.06);
-      --glass-border: rgba(212,175,55,0.14);
-    }
+<style>
+  :root{
+    --gold: #d4af37;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(212,175,55,0.14);
+  }
 
-    
+  .glass-btn {
+    position: relative;
+    display: inline-block;
+    padding: 0.8em 2.2em;
+    border-radius: 999px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: white;
+    font-weight: 400;
+    font-size: clamp(14px, 2.5vw, 16px);
+    letter-spacing: 0.4px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 220ms ease, box-shadow 220ms ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6),
+                inset 0 0 18px rgba(255,255,255,0.02);
+  }
 
+  .glass-btn:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.65),
+                0 0 40px rgba(212,175,55,0.08);
+  }
+
+  /* animated gold glow */
+  .glass-btn::before,
+  .glass-btn::after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 150%;
+    height: 70%;
+    left: -25%;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg,
+      rgba(212,175,55,0) 0%,
+      rgba(212,175,55,0.12) 20%,
+      rgba(212,175,55,0.85) 50%,
+      rgba(212,175,55,0.12) 80%,
+      rgba(212,175,55,0) 100%);
+    filter: blur(8px);
+    opacity: 0.9;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    border-radius: 999px;
+    animation: slideGlow 3.5s linear infinite;
+  }
+
+  .glass-btn::after{
+    animation: slideGlowReverse 4.8s linear infinite;
+    opacity: 0.6;
+    filter: blur(12px);
+  }
+
+  .glass-btn .sheen {
+    position: absolute;
+    left: -10%;
+    top: -30%;
+    width: 40%;
+    height: 120%;
+    background: radial-gradient(ellipse at top left, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 30%, transparent 50%);
+    transform: rotate(-20deg);
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    filter: blur(2px);
+  }
+
+  @keyframes slideGlow {
+    0% { transform: translateY(-50%) translateX(-60%); opacity: 0;}
+    40% { transform: translateY(-50%) translateX(0%); opacity: 0.9; }
+    100% { transform: translateY(-50%) translateX(120%); opacity: 0;}
+  }
+
+  @keyframes slideGlowReverse {
+    0% { transform: translateY(-50%) translateX(120%); opacity: 0;}
+    50% { transform: translateY(-50%) translateX(20%); opacity: 0.8; }
+    100% { transform: translateY(-50%) translateX(-120%); opacity: 0;}
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 600px) {
     .glass-btn {
-      position: relative;
-      display: inline-block;
-      padding: 12px 36px;
-      border-radius: 999px;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      color: white;
-      font-weight: 300;
-      font-size: 16px;
-      letter-spacing: 0.4px;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      cursor: pointer;
-      overflow: hidden;
-      transition: transform 220ms ease, box-shadow 220ms ease;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6),
-                  inset 0 0 18px rgba(255,255,255,0.02);
+      padding: 0.6em 1.8em;
+      font-size: clamp(13px, 4vw, 15px);
     }
-
-    .glass-btn:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.65),
-                  0 0 40px rgba(212,175,55,0.08);
-    }
-
-    /* animated gold glow */
     .glass-btn::before,
     .glass-btn::after{
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 140%;
-      height: 70%;
-      left: -20%;
-      transform: translateY(-50%) rotate(0deg);
-      background: linear-gradient(90deg,
-        rgba(212,175,55,0) 0%,
-        rgba(212,175,55,0.12) 20%,
-        rgba(212,175,55,0.85) 50%,
-        rgba(212,175,55,0.12) 80%,
-        rgba(212,175,55,0) 100%);
-      filter: blur(10px);
-      opacity: 0.9;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      border-radius: 999px;
-      animation: slideGlow 3.5s linear infinite;
+      width: 130%;
+      filter: blur(6px);
     }
+  }
+</style>
 
-    .glass-btn::after{
-      animation: slideGlowReverse 4.8s linear infinite;
-      opacity: 0.6;
-      filter: blur(14px);
-    }
+<button class="glass-btn" aria-label="Shop Now">
+  <span class="sheen"></span>
+  Shop Now
+</button>
 
-    .glass-btn .sheen {
-      position: absolute;
-      left: -10%;
-      top: -30%;
-      width: 40%;
-      height: 120%;
-      background: radial-gradient(ellipse at top left, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 30%, transparent 50%);
-      transform: rotate(-20deg);
-      pointer-events: none;
-      mix-blend-mode: overlay;
-      filter: blur(2px);
-    }
-
-    @keyframes slideGlow {
-      0% { transform: translateY(-50%) translateX(-60%); opacity: 0;}
-      10% { opacity: 0.25; }
-      40% { transform: translateY(-50%) translateX(0%); opacity: 0.9; }
-      70% { transform: translateY(-50%) translateX(60%); opacity: 0.25; }
-      100% { transform: translateY(-50%) translateX(120%); opacity: 0;}
-    }
-
-    @keyframes slideGlowReverse {
-      0% { transform: translateY(-50%) translateX(120%); opacity: 0;}
-      20% { opacity: 0.18; }
-      50% { transform: translateY(-50%) translateX(20%); opacity: 0.8; }
-      80% { transform: translateY(-50%) translateX(-40%); opacity: 0.2; }
-      100% { transform: translateY(-50%) translateX(-120%); opacity: 0;}
-    }
-  </style>
-
-  <button class="glass-btn" aria-label="Shop Now">
-    <span class="sheen"></span>
-    Shop Now
-  </button>
 <!--
 <a data-w-id="4c99abcb-a0af-3d67-d0b0-213dba387f32" href="#" class="glass-block button w-inline-block">
 <div class="global-link">
